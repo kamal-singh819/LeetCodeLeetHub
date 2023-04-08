@@ -1,4 +1,12 @@
 class Solution {
+private:
+    void dfs(int s, int &n, vector<vector<int>> &adj, vector<bool> &visited, unordered_set<int> &st, int &ans){
+        visited[s] = true;
+        ans++;
+        for(int neigh : adj[s]){
+            if(!st.count(neigh) && !visited[neigh]) dfs(neigh, n, adj, visited, st, ans);
+        }
+    }
 public:
     int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
         unordered_set<int> st(restricted.begin(), restricted.end());
@@ -11,22 +19,7 @@ public:
         }
         //adjacency list created
         int ans = 0;
-        queue<int> q;
-        q.push(0);
-        ans++;
-        visited[0] = true;
-        while(!q.empty()){
-            int front = q.front();
-            q.pop();
-            if(adj[front].size() == 0) continue;
-            for(int neigh : adj[front]){
-                if(!st.count(neigh) && !visited[neigh]){
-                    q.push(neigh);
-                    ans++;
-                    visited[neigh] = true;
-                }
-            }
-        }
+        dfs(0, n, adj, visited, st, ans);
         return ans; 
     }
 };
