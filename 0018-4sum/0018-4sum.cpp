@@ -4,7 +4,7 @@ public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
         int n = nums.size();
         if(n < 4) return {};
-        set<vector<int>> st;
+        vector<vector<int>> ans;
         sort(nums.begin(), nums.end());
         for(int i=0; i<n-1; i++){
             for(int j=i+1; j<n; j++){
@@ -12,28 +12,19 @@ public:
                 int x = j+1;
                 int y = n-1;
                 while(x < y && x < n && y < n){
-                    vector<int> v;
                     if(nums[x]+nums[y] == temp){
-                        v.push_back(nums[i]);
-                        v.push_back(nums[j]);
-                        v.push_back(nums[x]);
-                        v.push_back(nums[y]);
-                        st.insert(v);
-                        y--;
-                        x++;
+                        ans.push_back({nums[i], nums[j], nums[x], nums[y]});
+                        int tempIndex1 = x, tempIndex2 = y;
+                        while(x < y && nums[x] == nums[tempIndex1]) x++; //to remove duplicasy
+                        while(x < y && nums[y] == nums[tempIndex2]) y--; //to remove duplicasy
                     }
-                    else if((ll)nums[x]+(ll)nums[y] > temp){
-                        while(x < y && (ll)nums[y] == (ll)nums[y-1]) y--;
-                        y--;
-                    }
-                    else{
-                        while(x < y && (ll)nums[x] == (ll)nums[x+1]) x++;
-                        x++;
-                    }
+                    else if((ll)nums[x]+(ll)nums[y] > temp) y--;
+                    else x++;
                 }
+                while(j < n-1 && nums[j] == nums[j+1]) j++; //to remove duplicasy
             }
+            while(i < n-1 && nums[i] == nums[i+1]) i++; //to remove duplicasy
         }
-        vector<vector<int> > ans(st.begin(), st.end());
         return ans;
     }
 };
