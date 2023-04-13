@@ -1,16 +1,10 @@
-class Solution {
-public:
-    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
-        int n = pushed.size();
-        stack<int> st;
-        int j = 0; //for popped array
-        for(int i=0; i<n; i++){
-            st.push(pushed[i]);
-            while(!st.empty() && st.top() == popped[j]){
-                st.pop();
-                j++;
-            }
-        }
-        return st.empty(); 
-    }
-};
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        stack = []
+        j = 0 #for popped array
+        for i in pushed:
+            stack.append(i)
+            while len(stack) > 0 and stack[-1] == popped[j]:
+                stack.pop()
+                j += 1
+        return len(stack) == 0
