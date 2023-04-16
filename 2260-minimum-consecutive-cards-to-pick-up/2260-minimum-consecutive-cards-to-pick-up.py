@@ -1,16 +1,12 @@
-class Solution {
-public:
-    int minimumCardPickup(vector<int>& cards) {
-        int n = cards.size();
-        unordered_map<int, int> mp;
-        int ans = INT_MAX;
-        for(int i=0; i<n; i++){
-            if(!mp.count(cards[i])) mp[cards[i]] = i;
-            else{
-                ans = min(ans, i-mp[cards[i]]+1);
-                mp[cards[i]] = i;
-            }
-        }
-        return ans == INT_MAX ? -1 : ans;
-    }
-};
+class Solution:
+    def minimumCardPickup(self, cards: List[int]) -> int:
+        ans = 1e5 + 1
+        hashmap = {};
+        for i, element in enumerate(cards):
+            if element in hashmap:
+                ans = min(ans, i-hashmap[element]+1);
+            hashmap[element] = i;
+        
+        if ans == 1e5+1:
+            return -1
+        return ans
