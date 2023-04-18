@@ -1,33 +1,37 @@
 /**
  * Definition for a binary tree node.
- * struct TreeNode {
+ * public class TreeNode {
  *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
  */
 class Solution {
-private:
-    //Post Order Traversal
-    pair<int, int> function(TreeNode* root, int &ans){ //int : sum of Subtree, int : count
-        if(root == NULL){
-            return {0, 0};
-        }
-        //int : sum of Subtree, int : count of nodes in subtree
-        pair<int, int> l = function(root->left, ans);
-        pair<int, int> r = function(root->right, ans);
-        //root ka value   ,   sum of subtree      , count of nodes in subtree
-        if(root->val == (l.first+r.first+root->val)/(l.second+r.second+1)) ans++;
-        
-        return {l.first+r.first+root->val, l.second+r.second+1};
-    }
-public:
-    int averageOfSubtree(TreeNode* root) {
-        int ans = 0;
-        function(root, ans);
+    int ans = 0;
+    public int averageOfSubtree(TreeNode root) {
+        function(root);
         return ans;
     }
-};
+    //represent pair of <sum of subtree, count of nodes in subtree>
+    Pair<Integer, Integer> function(TreeNode root){
+        if(root == null){
+            return new Pair<>(0,0);
+        }
+        //left call
+        Pair<Integer, Integer> l = function(root.left);
+        //right call
+        Pair<Integer, Integer> r = function(root.right);
+        
+        //condition
+        if(root.val == (l.getKey()+r.getKey()+root.val)/(l.getValue()+r.getValue()+1)) ans++;
+        
+        return new Pair<>(l.getKey()+r.getKey()+root.val, l.getValue()+r.getValue()+1);
+    }
+}
