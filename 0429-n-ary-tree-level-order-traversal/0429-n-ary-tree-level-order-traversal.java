@@ -1,17 +1,16 @@
 /*
 // Definition for a Node.
 class Node {
-public:
-    int val;
-    vector<Node*> children;
+    public int val;
+    public List<Node> children;
 
-    Node() {}
+    public Node() {}
 
-    Node(int _val) {
+    public Node(int _val) {
         val = _val;
     }
 
-    Node(int _val, vector<Node*> _children) {
+    public Node(int _val, List<Node> _children) {
         val = _val;
         children = _children;
     }
@@ -19,26 +18,26 @@ public:
 */
 
 class Solution {
-public:
-    vector<vector<int>> levelOrder(Node* root) {
-        vector<vector<int>> ans;
-        if(root == NULL) return ans;
-        queue<Node*> q;
-        q.push(root);
-        while(!q.empty()){
+    public List<List<Integer>> levelOrder(Node root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root == null) return ans;
+        
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        while(q.size() > 0){
             int siz = q.size();
-            vector<int> level;
-            while(siz--){
-                auto f = q.front();
-                q.pop();
-                level.push_back(f->val);
-                //only one change is this------
-                for(auto nextlevel : f->children){ //children is vector of node's children
-                    q.push(nextlevel);
+            List<Integer> level = new ArrayList<>();
+            
+            while(siz-- > 0){
+                Node f = q.poll(); //get front of queue
+                level.add(f.val);
+                //push all children of 'f' node
+                for(Node nl : f.children){
+                    q.offer(nl);
                 }
             }
-            ans.push_back(level);
+            ans.add(new ArrayList<>(level));
         }
         return ans;
     }
-};
+}
